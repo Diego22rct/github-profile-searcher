@@ -35,6 +35,8 @@
 
 ```bash
 git clone https://github.com/Diego22rct/github-profile-searcher.git
+```
+```bash
 cd github-profile-searcher
 ```
 
@@ -51,7 +53,7 @@ npm run dev
 ```
 
 4. Abre tu navegador y visita:  
-`http://localhost:8080`
+`http://localhost:3000`
 
 ## 🧪 Scripts disponibles
 

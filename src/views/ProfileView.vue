@@ -85,13 +85,11 @@
                   </a>
                 </div>
               </div>
-            </div>
-
-            <!-- README especial si existe -->
+            </div>            <!-- README especial si existe -->
             <div v-if="userReadme" class="user-readme">
               <h3 class="readme-title">📄 README del perfil</h3>
               <div class="readme-content">
-                <pre>{{ userReadme }}</pre>
+                <MarkdownRenderer :content="userReadme" />
               </div>
             </div>
 
@@ -121,6 +119,7 @@ import { defineComponent, computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import RepoList from '../components/RepoList.vue';
+import MarkdownRenderer from '../components/MarkdownRenderer.vue';
 import { actions } from '../store';
 import type { RootState } from '../store';
 
@@ -128,6 +127,7 @@ export default defineComponent({
   name: 'ProfileView',
   components: {
     RepoList,
+    MarkdownRenderer,
   },
   props: {
     username: {
@@ -463,16 +463,6 @@ export default defineComponent({
   overflow-x: auto;
 }
 
-.readme-content pre {
-  color: #d1d5db;
-  font-family: 'Courier New', monospace;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  margin: 0;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
 /* Repositorios */
 .repositories-section {
   padding: 2rem;
@@ -545,13 +535,8 @@ export default defineComponent({
   .stat-value {
     font-size: 1.25rem;
   }
-  
-  .readme-content {
+    .readme-content {
     padding: 1rem;
-  }
-  
-  .readme-content pre {
-    font-size: 0.8rem;
   }
 }
 </style>

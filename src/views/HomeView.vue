@@ -83,10 +83,9 @@ export default defineComponent({
 
     // Computadas para acceder al estado del store
     const searchLoading = computed(() => store.state.searchLoading);
-    const searchError = computed(() => store.state.searchError);
-
-    // Sugerencias de búsqueda para ayudar al usuario
+    const searchError = computed(() => store.state.searchError);    // Sugerencias de búsqueda para ayudar al usuario
     const searchSuggestions = [
+      'Diego22rct',
       'microsoft',
       'facebook',
       'google',

@@ -102,9 +102,7 @@ export class GitHubApiService {
       console.error('Error getting user repositories:', error);
       throw new Error('Error al obtener repositorios del usuario');
     }
-  }
-
-  /**
+  }  /**
    * Obtener el README del repositorio especial (username/username)
    * @param username - Nombre de usuario de GitHub
    */

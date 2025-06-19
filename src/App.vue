@@ -6,7 +6,7 @@
     <!-- Footer opcional -->
     <footer class="app-footer">
       <div class="footer-content">
-        <p>&copy; 2024 GitHub Profile Searcher - Hecho con Vue.js y ❤️</p>
+        <p>&copy; {{ currentYear }} GitHub Profile Searcher - Hecho con Vue.js y ❤️ por @Diego22rct</p>
         <p class="footer-note">
           Datos proporcionados por la 
           <a href="https://docs.github.com/en/rest" target="_blank" rel="noopener noreferrer">
@@ -19,10 +19,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
   name: 'App',
+  setup() {
+    // Año actual dinámico
+    const currentYear = computed(() => new Date().getFullYear());
+
+    return {
+      currentYear,
+    };
+  },
 });
 </script>
 

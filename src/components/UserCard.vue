@@ -96,18 +96,37 @@ export default defineComponent({
 .user-card {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 1.5rem;
-  background-color: #1f2937;
-  border: 1px solid #374151;
-  border-radius: 0.75rem;
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(31, 41, 55, 0.8), rgba(17, 24, 39, 0.8));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  border-radius: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.user-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .user-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  border-color: #4b5563;
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.user-card:hover::before {
+  opacity: 1;
 }
 
 .user-avatar {
@@ -115,16 +134,20 @@ export default defineComponent({
 }
 
 .avatar-image {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  border: 3px solid #3b82f6;
+  border: 3px solid transparent;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6) padding-box,
+              linear-gradient(135deg, #3b82f6, #8b5cf6) border-box;
   object-fit: cover;
-  transition: transform 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
 }
 
 .avatar-image:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
+  box-shadow: 0 15px 35px rgba(59, 130, 246, 0.3);
 }
 
 .user-info {
@@ -160,15 +183,21 @@ export default defineComponent({
 .user-stats {
   display: flex;
   justify-content: space-around;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(59, 130, 246, 0.05);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
 }
 
 .stat {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.5rem;
+  flex: 1;
 }
 
 .stat-label {
@@ -176,12 +205,16 @@ export default defineComponent({
   color: #9ca3af;
   text-transform: uppercase;
   font-weight: 600;
+  letter-spacing: 0.05em;
 }
 
 .stat-value {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .user-actions {
@@ -196,19 +229,39 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  background-color: #3b82f6;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: #fff;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   font-weight: 600;
+  font-size: 0.95rem;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.view-profile-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
 }
 
 .view-profile-btn:hover:not(:disabled) {
-  background-color: #2563eb;
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+
+.view-profile-btn:hover:not(:disabled)::before {
+  left: 100%;
 }
 
 .view-profile-btn:active:not(:disabled) {
@@ -222,20 +275,27 @@ export default defineComponent({
 }
 
 .github-link {
-  display: block;
-  text-align: center;
-  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
   color: #9ca3af;
   text-decoration: none;
-  border: 1px solid #4b5563;
-  border-radius: 0.5rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 1rem;
   font-size: 0.875rem;
-  transition: color 0.2s, border-color 0.2s;
+  font-weight: 500;
+  background: rgba(59, 130, 246, 0.05);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .github-link:hover {
   color: #3b82f6;
-  border-color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.4);
+  background: rgba(59, 130, 246, 0.1);
+  transform: translateY(-1px);
 }
 
 .loading-spinner {

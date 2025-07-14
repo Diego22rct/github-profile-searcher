@@ -81,7 +81,7 @@ export default defineComponent({
 <style scoped>
 .search-bar {
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
@@ -91,25 +91,36 @@ export default defineComponent({
 
 .search-input-group {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
   align-items: stretch;
+  padding: 0.5rem;
+  background: rgba(31, 41, 55, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.search-input-group:focus-within {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);
+  transform: translateY(-2px);
 }
 
 .search-input {
   flex: 1;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   font-size: 1rem;
-  border: 2px solid #374151;
-  border-radius: 0.5rem;
-  background-color: #1f2937;
+  border: none;
+  border-radius: 1rem;
+  background: transparent;
   color: #fff;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .search-input:disabled {
@@ -119,26 +130,48 @@ export default defineComponent({
 
 .search-input::placeholder {
   color: #9ca3af;
+  font-weight: 400;
 }
 
 .search-button {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 1rem 1.5rem;
-  font-size: 1rem;
+  padding: 1rem 2rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: #fff;
-  background-color: #3b82f6;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+  min-width: 120px;
+}
+
+.search-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
 }
 
 .search-button:hover:not(:disabled) {
-  background-color: #2563eb;
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+
+.search-button:hover:not(:disabled)::before {
+  left: 100%;
 }
 
 .search-button:active:not(:disabled) {
@@ -152,9 +185,9 @@ export default defineComponent({
 }
 
 .loading-spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid transparent;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-top: 2px solid #fff;
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -166,23 +199,44 @@ export default defineComponent({
 }
 
 .error-message {
-  padding: 1rem;
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: 0.5rem;
-  color: #dc2626;
+  margin-top: 1rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 1rem;
+  color: #fca5a5;
   font-weight: 500;
   text-align: center;
+  animation: slideInDown 0.3s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Responsive design */
 @media (max-width: 640px) {
   .search-input-group {
     flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .search-input {
+    padding: 1rem;
   }
   
   .search-button {
     justify-content: center;
+    padding: 1rem;
   }
 }
 </style>

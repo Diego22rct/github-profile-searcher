@@ -66,6 +66,10 @@
         <!-- Resultados -->
         <div v-else-if="hasSearchResults" class="results-content">
           <div class="results-header">
+            <div class="results-badge">
+              <span class="badge-icon">🎯</span>
+              <span class="badge-text">Resultados encontrados</span>
+            </div>
             <h2 class="results-count">
               {{ searchResults.length }} usuario{{ searchResults.length !== 1 ? 's' : '' }} encontrado{{ searchResults.length !== 1 ? 's' : '' }}
             </h2>
@@ -73,10 +77,12 @@
           
           <div class="results-grid">
             <UserCard
-              v-for="user in searchResults"
+              v-for="(user, index) in searchResults"
               :key="user.id"
               :user="user"
               :loading="userLoading"
+              :style="{ animationDelay: `${index * 0.1}s` }"
+              class="user-card-animated"
               @view-profile="handleViewProfile"
             />
           </div>
@@ -346,14 +352,39 @@ export default defineComponent({
 }
 
 .results-header {
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   text-align: center;
 }
 
-.results-count {
-  font-size: 1.25rem;
+.results-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(59, 130, 246, 0.2));
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+}
+
+.badge-icon {
+  font-size: 1rem;
+}
+
+.badge-text {
+  font-size: 0.875rem;
   font-weight: 600;
-  color: #d1d5db;
+  background: linear-gradient(135deg, #22c55e, #3b82f6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.results-count {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
   margin: 0;
 }
 
@@ -361,6 +392,21 @@ export default defineComponent({
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
+}
+
+.user-card-animated {
+  animation: slideInUp 0.6s ease-out both;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Responsive design */

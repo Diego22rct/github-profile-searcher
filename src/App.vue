@@ -1,7 +1,11 @@
 <template>
   <div id="app">
-    <!-- Router view para mostrar las diferentes páginas -->
-    <router-view />
+    <!-- Router view con transiciones suaves -->
+    <router-view v-slot="{ Component, route }">
+      <transition :name="getTransitionName(route)" mode="out-in">
+        <component :is="Component" :key="route.path" />
+      </transition>
+    </router-view>
     
     <!-- Footer opcional -->
     <footer class="app-footer">
@@ -20,6 +24,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
+import { RouteLocationNormalized } from 'vue-router';
 
 export default defineComponent({
   name: 'App',
@@ -27,8 +32,18 @@ export default defineComponent({
     // Año actual dinámico
     const currentYear = computed(() => new Date().getFullYear());
 
+    // Función para determinar el tipo de transición basado en la ruta
+    const getTransitionName = (route: RouteLocationNormalized) => {
+      // Transiciones específicas según la navegación
+      if (route.name === 'Home') return 'slide-right';
+      if (route.name === 'Results') return 'slide-left';
+      if (route.name === 'Profile') return 'slide-up';
+      return 'fade';
+    };
+
     return {
       currentYear,
+      getTransitionName,
     };
   },
 });
@@ -102,15 +117,98 @@ body {
   border: 0;
 }
 
-/* Animaciones globales */
+/* Transiciones de página */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+.slide-left-enter-active, .slide-left-leave-active {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.slide-left-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+.slide-left-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.slide-right-enter-active, .slide-right-leave-active {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.slide-right-enter-from {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+.slide-right-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.slide-up-enter-active, .slide-up-leave-active {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.slide-up-enter-from {
+  transform: translateY(100%);
+  opacity: 0;
+}
+.slide-up-leave-to {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+/* Animaciones globales mejoradas */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { 
+    opacity: 0; 
+    transform: translateY(10px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from { 
+    transform: translateY(30px); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translateY(0); 
+    opacity: 1; 
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1); 
+  }
+  50% { 
+    transform: scale(1.05); 
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 /* Responsive utilities */

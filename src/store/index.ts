@@ -130,7 +130,21 @@ export default createStore({
       try {
         const response = await GitHubApiService.searchUsers(query.trim());
         commit(mutations.SET_SEARCH_QUERY, query.trim());
-        commit(mutations.SET_SEARCH_RESULTS, response.items);
+        
+        // Obtener información completa de cada usuario para mostrar stats correctas
+        const usersWithDetails = await Promise.all(
+          response.items.slice(0, 10).map(async (user) => {
+            try {
+              return await GitHubApiService.getUser(user.login);
+            } catch (error) {
+              // Si falla obtener detalles de un usuario, usar los datos básicos
+              console.warn(`Error getting details for user ${user.login}:`, error);
+              return user;
+            }
+          })
+        );
+        
+        commit(mutations.SET_SEARCH_RESULTS, usersWithDetails);
       } catch (error) {
         commit(mutations.SET_SEARCH_ERROR, error instanceof Error ? error.message : 'Error desconocido');
         commit(mutations.SET_SEARCH_RESULTS, []);

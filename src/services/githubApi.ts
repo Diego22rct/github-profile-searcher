@@ -110,8 +110,11 @@ export class GitHubApiService {
     try {
       const response = await api.get<ReadmeResponse>(`/repos/${username}/${username}/readme`);
       
+      // Limpiar el contenido base64 removiendo saltos de línea y espacios
+      const cleanBase64 = response.data.content.replace(/\s/g, '');
+      
       // Decodificar el contenido base64
-      const content = atob(response.data.content);
+      const content = atob(cleanBase64);
       return content;
     } catch (error) {
       // Si no existe el README especial, retornamos null

@@ -3,22 +3,19 @@
     <!-- Header con nueva búsqueda -->
     <div class="search-header">
       <div class="container">
-        <h1 class="page-title">
-          Resultados de búsqueda
-          <span v-if="searchQuery" class="search-query">"{{ searchQuery }}"</span>
-        </h1>
-        
-        <SearchBar
-          :loading="searchLoading"
-          :error="searchError"
-          :initial-value="searchQuery"
-          @search="handleNewSearch"
-        />
-        
-        <div class="search-actions">
+        <div class="search-controls">
           <router-link to="/" class="back-btn">
             ← Volver al inicio
           </router-link>
+          
+          <div class="search-bar-wrapper">
+            <SearchBar
+              :loading="searchLoading"
+              :error="searchError"
+              :initial-value="searchQuery"
+              @search="handleNewSearch"
+            />
+          </div>
           
           <button 
             v-if="hasSearchResults"
@@ -198,31 +195,22 @@ export default defineComponent({
   background-color: rgba(31, 41, 55, 0.8);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid #374151;
-  padding: 2rem 0;
+  padding: 1rem 0;
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
-.page-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #fff;
-  margin: 0 0 1.5rem 0;
-  text-align: center;
-}
-
-.search-query {
-  color: #3b82f6;
-  font-weight: 600;
-}
-
-.search-actions {
+.search-controls {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 1rem;
   gap: 1rem;
+  justify-content: space-between;
+}
+
+.search-bar-wrapper {
+  flex: 1;
+  max-width: 400px;
 }
 
 .back-btn, .clear-btn {
@@ -377,17 +365,17 @@ export default defineComponent({
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .page-title {
-    font-size: 1.5rem;
-  }
-  
-  .search-actions {
+  .search-controls {
     flex-direction: column;
     gap: 0.75rem;
+    align-items: stretch;
+  }
+  
+  .search-bar-wrapper {
+    max-width: none;
   }
   
   .back-btn, .clear-btn {
-    width: 100%;
     text-align: center;
   }
   
@@ -399,11 +387,20 @@ export default defineComponent({
 
 @media (max-width: 640px) {
   .search-header {
-    padding: 1rem 0;
+    padding: 0.75rem 0;
   }
   
   .container {
     padding: 0 0.75rem;
+  }
+  
+  .search-controls {
+    gap: 0.5rem;
+  }
+  
+  .back-btn, .clear-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
   }
   
   .loading-state, .error-state, .no-results-state, .initial-state {
